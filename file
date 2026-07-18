@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Irrigation Dashboard</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#e8f5e9;
+            text-align:center;
+        }
+
+        .container{
+            width:400px;
+            margin:50px auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        h1{
+            color:#2e7d32;
+        }
+
+        .card{
+            background:#f4f4f4;
+            padding:15px;
+            margin:15px;
+            border-radius:8px;
+            font-size:22px;
+            font-weight:bold;
+        }
+
+        .progress{
+            width:100%;
+            height:30px;
+            background:#ddd;
+            border-radius:20px;
+            overflow:hidden;
+            margin-top:10px;
+        }
+
+        .bar{
+            height:100%;
+            width:0%;
+            background:#4caf50;
+            color:white;
+            line-height:30px;
+            font-weight:bold;
+            transition:0.5s;
+        }
+
+        button{
+            width:120px;
+            padding:10px;
+            margin:10px;
+            font-size:18px;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .on{
+            background:green;
+            color:white;
+        }
+
+        .off{
+            background:red;
+            color:white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌱 Smart Irrigation Dashboard</h1>
+
+<div class="card">
+Soil Moisture
+<div class="progress">
+<div class="bar" id="bar">0%</div>
+</div>
+</div>
+
+<div class="card">
+Moisture Level :
+<span id="moisture">0</span> %
+</div>
+
+<div class="card">
+Pump Control
+<br><br>
+<button class="on" onclick="pumpOn()">Pump ON</button>
+<button class="off" onclick="pumpOff()">Pump OFF</button>
+</div>
+
+</div>
+
+<script>
+
+const ip = "http://192.168.1.100";
+
+function updateData()
+{
+    fetch(ip + "/moisture")
+    .then(response => response.json())
+    .then(data => {
+
+        let value = data.moisture;
+
+        document.getElementById("moisture").innerHTML = value;
+
+        document.getElementById("bar").style.width = value + "%";
+
+        document.getElementById("bar").innerHTML = value + "%";
+    });
+}
+
+function pumpOn()
+{
+    fetch(ip + "/pumpon");
+}
+
+function pumpOff()
+{
+    fetch(ip + "/pumpoff");
+}
+
+updateData();
+
+setInterval(updateData,3000);
+
+</script>
+
+</body>
+</html>
