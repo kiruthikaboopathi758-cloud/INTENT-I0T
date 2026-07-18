@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fire & Gas Alert Dashboard</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#fff3e0;
+            text-align:center;
+        }
+
+        .container{
+            width:450px;
+            margin:50px auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        h1{
+            color:#d32f2f;
+        }
+
+        .card{
+            background:#f4f4f4;
+            padding:15px;
+            margin:15px;
+            border-radius:8px;
+            font-size:22px;
+            font-weight:bold;
+        }
+
+        .safe{
+            color:green;
+        }
+
+        .danger{
+            color:red;
+        }
+
+        button{
+            width:140px;
+            padding:12px;
+            margin:10px;
+            font-size:18px;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .on{
+            background:red;
+            color:white;
+        }
+
+        .off{
+            background:green;
+            color:white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🔥 Fire & Gas Alert Dashboard</h1>
+
+<div class="card">
+Fire Status :
+<span id="fire" class="safe">SAFE</span>
+</div>
+
+<div class="card">
+Gas Status :
+<span id="gas" class="safe">SAFE</span>
+</div>
+
+<div class="card">
+Gas Value :
+<span id="gasValue">0</span> ppm
+</div>
+
+<button class="on" onclick="alarmOn()">Alarm ON</button>
+<button class="off" onclick="alarmOff()">Alarm OFF</button>
+
+</div>
+
+<script>
+
+const ip = "http://192.168.1.100";
+
+function updateData()
+{
+    fetch(ip + "/alert")
+    .then(response => response.json())
+    .then(data => {
+
+        let fire = document.getElementById("fire");
+        let gas = document.getElementById("gas");
+
+        fire.innerHTML = data.fire;
+        gas.innerHTML = data.gas;
+
+        fire.className = data.fire=="SAFE" ? "safe" : "danger";
+        gas.className = data.gas=="SAFE" ? "safe" : "danger";
+
+        document.getElementById("gasValue").innerHTML = data.gasValue;
+
+    });
+}
+
+function alarmOn()
+{
+    fetch(ip + "/alarmon");
+}
+
+function alarmOff()
+{
+    fetch(ip + "/alarmoff");
+}
+
+updateData();
+
+setInterval(updateData,2000);
+
+</script>
+
+</body>
+</html>
