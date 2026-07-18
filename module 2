@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Automation Dashboard</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f2f2f2;
+            text-align:center;
+        }
+
+        h1{
+            color:#333;
+            margin-top:30px;
+        }
+
+        .card{
+            background:white;
+            width:300px;
+            margin:20px auto;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        button{
+            width:100px;
+            padding:10px;
+            margin:5px;
+            border:none;
+            border-radius:5px;
+            font-size:16px;
+            cursor:pointer;
+        }
+
+        .on{
+            background:green;
+            color:white;
+        }
+
+        .off{
+            background:red;
+            color:white;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🏠 Home Automation Dashboard</h1>
+
+<div class="card">
+    <h2>💡 Light</h2>
+    <button class="on" onclick="lightOn()">ON</button>
+    <button class="off" onclick="lightOff()">OFF</button>
+</div>
+
+<div class="card">
+    <h2>🌀 Fan</h2>
+    <button class="on" onclick="fanOn()">ON</button>
+    <button class="off" onclick="fanOff()">OFF</button>
+</div>
+
+<div class="card">
+    <h2>📺 TV</h2>
+    <button class="on" onclick="tvOn()">ON</button>
+    <button class="off" onclick="tvOff()">OFF</button>
+</div>
+
+<script>
+
+const ip = "http://192.168.1.100";
+
+function lightOn(){
+    fetch(ip + "/lighton");
+}
+
+function lightOff(){
+    fetch(ip + "/lightoff");
+}
+
+function fanOn(){
+    fetch(ip + "/fanon");
+}
+
+function fanOff(){
+    fetch(ip + "/fanoff");
+}
+
+function tvOn(){
+    fetch(ip + "/tvon");
+}
+
+function tvOff(){
+    fetch(ip + "/tvoff");
+}
+
+</script>
+
+</body>
+</html>
